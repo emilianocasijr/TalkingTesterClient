@@ -1,20 +1,16 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import axios from 'axios';
 
 Vue.use(Vuex);
 Vue.config.devtools = true;
 
-export default new Vuex.Store({
-  state: {
-    user: null,
-    isAuthenticated: false,
-  },
-  mutations: {
-    updateUser: (state, userData) => {
-      state.user = userData;
-      state.isAuthenticated = true;
-    },
-  },
+const store = new Vuex.Store({
+  state: {},
+  mutations: {},
   actions: {},
   modules: {},
+  getters: {},
 });
+
+export default store;

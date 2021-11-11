@@ -17,7 +17,7 @@ export default {
 
   methods: {
     createQuestionSet() {
-      this.$router.push('createquestionset');
+      this.$router.push({ path: `create-question-set` });
     },
   },
 };

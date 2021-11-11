@@ -52,7 +52,7 @@ export default {
           },
         };
         const user = await axios.get('api/auth', configGetUser);
-        this.$store.commit('updateUser', user.data);
+        localStorage.setItem('username', user.data.username);
         this.$router.push('dashboard');
       } catch (err) {
         console.log(err);

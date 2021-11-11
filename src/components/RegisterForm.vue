@@ -45,7 +45,6 @@ export default {
       try {
         const res = await axios.post('api/users', body, config);
         localStorage.setItem('token', res.data.token);
-        this.$store.state.isAuthenticated = true;
       } catch (err) {
         console.log(err);
       }

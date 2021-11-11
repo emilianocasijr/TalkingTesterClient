@@ -9,12 +9,8 @@
 export default {
   computed: {
     username() {
-      let user = this.$store.state.user;
-      if (!user) { //redirect user if user is not logged in
-        this.$router.push('login');
-      } else {
-        return user.username;
-      }
+      console.log(localStorage.username);
+      return localStorage.username;
     },
   },
 };
