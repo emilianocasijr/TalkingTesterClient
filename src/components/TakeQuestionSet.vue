@@ -1,5 +1,5 @@
 <template>
-  <div class="main-container">
+  <div class="main-container" v-if="!isLoading">
     <h1>{{ questionSet.title }}</h1>
     <div class="card">
       <div v-if="viewInitial">
@@ -23,6 +23,9 @@
         <b
           >{{ incorrectAnswers.length }} / {{ questionSet.questions.length }}</b
         >
+        <button @click="retakeExam">Retake exam</button>
+        <button @click="retakeExamDontSave">Retake exam but don't save data</button>
+        <button @click="backToDashboard">Back to dashboard</button>
       </div>
     </div>
   </div>
@@ -34,7 +37,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      questionSetID: this.$route.params.id,
+      questionSetID: this.$route.query.id,
       questionSet: null,
       currentQuestion: 0,
       incorrectAnswers: [],
@@ -46,25 +49,31 @@ export default {
   },
   methods: {
     startExam() {
-      viewInitial = false;
-      viewExam = true;
+      this.viewInitial = false;
+      this.viewExam = true;
     },
     selectChoice(choice, counter) {
       // Only store incorrect answers, unstored ones will be considered correct
       if (choice.answer == false) {
         incorrectAnswers.push({
-          questionNumber: currentQuestion,
+          questionNumber: this.currentQuestion,
           incorrectAnswer: counter,
         });
       }
       // Check if there are more questions
-      if (currentQuestion < questionSet.questions.length - 1) {
-        currentQuestion++;
+      if (this.currentQuestion < this.questionSet.questions.length - 1) {
+        this.currentQuestion++;
       } else {
-        viewExam = false;
-        viewResult = true;
+        this.viewExam = false;
+        this.viewResult = true;
       }
     },
+    backToDashboard(){
+      this.$router.push('dashboard');
+    },
+    retakeExam(){
+      
+    }
   },
   async created() {
     const configGetUser = {
@@ -76,7 +85,7 @@ export default {
     await axios
       .get(`api/question-sets/${this.questionSetID}`, configGetUser)
       .then((res) => {
-        this.questionSet = res;
+        this.questionSet = res.data;
         this.isLoading = false;
       });
   },

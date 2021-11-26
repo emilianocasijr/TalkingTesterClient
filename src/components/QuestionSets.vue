@@ -62,7 +62,7 @@ export default {
       return date.toLocaleDateString('en-US', options);
     },
     onQuestionSetClick(questionSetID) {
-      this.$router.push({ path: `question-set/${questionSetID}` });
+      this.$router.push({ path: `question-set?id=${questionSetID}` });
     },
   },
   computed: {},

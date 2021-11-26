@@ -75,7 +75,7 @@ const routes = [
     },
   },
   {
-    path: '/question-set/:id',
+    path: '/question-set',
     name: 'QuestionSet',
     component: QuestionSet,
     meta: {
