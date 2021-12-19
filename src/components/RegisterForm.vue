@@ -79,5 +79,12 @@ h2 {
 input {
   width: 100%;
   height: 30px;
+  margin-bottom: 20px;
+}
+
+button{
+  font-size: 16px;
+  padding: 5px 10px;
+  margin-bottom: 20px;
 }
 </style>

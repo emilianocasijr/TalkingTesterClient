@@ -39,8 +39,11 @@ async function authenticateUser() {
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'Login',
+    component: Login,
+    meta: {
+      loggedOut: true,
+    },
   },
   {
     path: '/login',

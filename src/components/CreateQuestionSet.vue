@@ -1,5 +1,7 @@
 <template>
   <div class="main-container">
+    <button class="back-button" @click="backToDashboard">Back to dashboard</button>
+    <input type="file" accept=".csv" @change="handleFileUpload( $event )"/>
     <form v-on:submit.prevent>
       <input
         type="text"
@@ -68,6 +70,7 @@
 
 <script>
 import axios from 'axios';
+import papa from 'papaparse';
 
 export default {
   data() {
@@ -84,9 +87,47 @@ export default {
           ],
         },
       ],
+      file: '',
+      content: [],
+      parsed: false,
     };
   },
   methods: {
+    handleFileUpload( event ){
+      this.file = event.target.files[0];
+      this.parseFile();
+    },
+
+    parseFile(){
+      papa.parse( this.file, {
+          header: true,
+          skipEmptyLines: true,
+          complete: function( results ){
+              this.content = results;
+              this.questions = []; // reset to remove empty one by default
+              this.content.data.forEach(question => {
+                console.log('loop')
+                let newQuestion = {};
+                this.title = this.file.name.replace(/\.[^/.]+$/, "");
+                newQuestion.question = question.Question;
+                newQuestion.choices = [];
+                let answer = question.Answer.toUpperCase().charCodeAt(0) - 65;
+                Object.keys(question).filter(k => k.startsWith('Choice')).forEach((choice, index) => {
+                  if(index == answer){
+                    newQuestion.choices.push({choice: question[choice], answer: true})
+                  } else{
+                    newQuestion.choices.push({choice: question[choice], answer: false})
+                  }
+                });
+                console.log(newQuestion)
+                this.questions.push(newQuestion);
+              });
+
+              this.parsed = true;
+          }.bind(this)
+      } );
+    },
+
     addQuestion() {
       this.questions.push({
         question: '',
@@ -145,6 +186,9 @@ export default {
         console.log(err);
       }
     },
+    backToDashboard() {
+      this.$router.push('dashboard');
+    },
   },
 };
 </script>
@@ -185,5 +229,12 @@ export default {
 .delete-question-buttons {
   display: flex;
   flex-direction: column;
+}
+
+.back-button{
+  padding: 5px 15px;
+  font-size: 12px;
+  margin-bottom: 20px;
+  display: block;
 }
 </style>

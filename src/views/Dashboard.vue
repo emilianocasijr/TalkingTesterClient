@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <Header />
-    <QuestionSets @createQuestionSet="createQuestionSet" />
+    <QuestionSets @createQuestionSet="createQuestionSet" class='question-sets'/>
   </div>
 </template>
 
@@ -23,4 +23,15 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.question-sets{
+  margin: auto;
+}
+
+@media (max-width:1025px){
+  .question-sets{
+    margin: 0 5% auto;
+    margin-bottom: 20px;
+  }
+}
+</style>
